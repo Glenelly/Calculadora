@@ -18,8 +18,8 @@ def create_usuarios():
         
         required_fields = ["nome", "idade", "expressao"]
         for field in required_fields:
-            if field not in data:
-                return jsonify({"error": f'Missing required field: {field}'}), 400
+            if field not in data or not data.get(field):
+                return jsonify({"error": f'Está faltando informação: {field}'}), 400
         
         nome = data.get("nome")
         idade = data.get("idade")
@@ -28,7 +28,7 @@ def create_usuarios():
         new_usuario = Userdata(nome=nome, idade=idade, expressao=expressao)
         db.session.add(new_usuario)
         db.session.commit()
-        return jsonify({"msg": "friend created success"}), 201
+        return jsonify(new_usuario.to_json()), 201
     
     except Exception as e:
         db.session.rollback()
@@ -60,7 +60,7 @@ def update_usuario(id):
     
     db.session.commit()
     
-    return jsonify({"message": "Usuário atualizado!"}), 200
+    return jsonify(usuario.to_json()), 200
 
 
 @app.route("/api/calcular", methods=["POST"])
