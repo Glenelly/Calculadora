@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://userdata_owner:lXdzw1DUI8oH@ep-lucky-pond-a5uomoke.us-east-2.aws.neon.tech/userdata?sslmode=require"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///userdata.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
