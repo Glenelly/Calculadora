@@ -1,9 +1,16 @@
-import { Box, Button, Container, Flex , Text, useColorMode, useColorModeValue} from "@chakra-ui/react"
+import { Box, Button, Container, Flex , Text, useColorMode, useColorModeValue} from "@chakra-ui/react";
 import { IoMoon } from "react-icons/io5";
-import { LuSun } from "react-icons/lu"
+import { LuSun } from "react-icons/lu";
 import CreateUserModal from "./CreateUserModal";
-const Navbar = ({ setUsers }) => {
-    const { colorMode, toggleColorMode } = useColorMode()
+import { useEffect } from "react";
+
+const Navbar = ({ setUsers, fetchUsers }) => {
+    const { colorMode, toggleColorMode } = useColorMode();
+
+    useEffect(() => {
+        fetchUsers(); 
+    }, [fetchUsers]);
+
     return (
         <Container maxW={"900px"}>
             <Box
@@ -28,18 +35,17 @@ const Navbar = ({ setUsers }) => {
                     <Flex gap={3} alignItems={"center"}>
                     <Text fontSize={"lg"} fontWeight={500} display={{base: "none", md: "block"}}>
                         Calculadora de Risco
-                        </Text>
+                    </Text>
 
-                        <Button onClick={toggleColorMode}>
-                            {colorMode === "light" ? <IoMoon/> : <LuSun size={20}/>}
-                        </Button>
-                        <CreateUserModal setUsers={setUsers} />
+                    <Button onClick={toggleColorMode}>
+                        {colorMode === "light" ? <IoMoon/> : <LuSun size={20}/>}
+                    </Button>
+                    <CreateUserModal setUsers={setUsers} />
                     </Flex>
                 </Flex>
             </Box>
-
         </Container>
     );
 };
-export default Navbar
 
+export default Navbar;

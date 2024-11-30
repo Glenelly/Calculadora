@@ -1,24 +1,26 @@
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from flask_migrate import Migrate  # Importação do Flask-Migrate
+from flask_migrate import Migrate
 import os
 from dotenv import load_dotenv
+from sqlalchemy import create_engine
 
-# Carregar variáveis de ambiente do arquivo .env
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-# Usar a variável de ambiente para configurar a URL do banco de dados
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("postgresql://neondb_owner:mK5ErcHOtuv2@ep-dark-king-a54fcoql.us-east-2.aws.neon.tech/neondb?sslmode=require")
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+print("Conectando ao banco de dados:", DATABASE_URL)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
-# Configuração do Flask-Migrate
-migrate = Migrate(app, db)  # Inicialização do Migrate com a aplicação e o banco de dados
+migrate = Migrate(app, db)
 
 frontend_folder = os.path.join(os.getcwd(), "..", "frontend", "dist")
 dist_folder = os.path.join(frontend_folder, "dist")
@@ -29,3 +31,14 @@ def index(filename):
     if not filename:
         filename = "index.html"
     return send_from_directory(dist_folder, filename)
+
+@app.route('/api/usuarios', methods=['GET'])
+def get_usuarios():
+    
+    result = db.session.execute("SELECT * FROM usuarios")
+    users = result.fetchall()
+    return jsonify([dict(user) for user in users])
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
