@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",  
-    "build": "vite build", 
-    "lint": "eslint .",  
-    "preview": "vite preview",  
-    "vercel-build": "npm run build && npx prisma migrate deploy" 
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "vercel-build": "npx prisma migrate deploy" 
   },
   "dependencies": {
     "@chakra-ui/react": "^2.10.4",

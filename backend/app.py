@@ -3,11 +3,16 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate  # Importação do Flask-Migrate
 import os
+from dotenv import load_dotenv
+
+# Carregar variáveis de ambiente do arquivo .env
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mydatabase.db"
+# Usar a variável de ambiente para configurar a URL do banco de dados
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("postgresql://neondb_owner:******@ep-dark-king-a54fcoql-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
