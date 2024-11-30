@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar"
 import UserGrid from './components/UserGrid';
 import { useState } from 'react';
 
-export const BASE_URL = "http://127.0.0.1:5000/api"
+export const BASE_URL = "postgresql://neondb_owner:mK5ErcHOtuv2@ep-dark-king-a54fcoql.us-east-2.aws.neon.tech/neondb?sslmode=require"
 
 function App() {
   const [users, setUsers] = useState([])
